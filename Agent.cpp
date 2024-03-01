@@ -22,7 +22,7 @@ void Agent::update(ofPoint playerPosition) {
 	velocity = direction * maxSpeed;
 	position += velocity; 
 
-	angle - atan2(direction.y, direction.x); // Calculate the angle between the direction vector and the x-axis
+	angle = atan2(direction.y, direction.x); // Calculate the angle between the direction vector and the x-axis
 
 	if (lifespan > 0 && ofGetElapsedTimef() > birthTime + lifespan) {
 		dead = true;
