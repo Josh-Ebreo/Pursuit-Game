@@ -1,6 +1,10 @@
 #pragma once
 
 #include "ofMain.h"
+#include "Player.h"
+#include "Emitter.h"
+#include "Agent.h"
+#include "ofxGui.h"
 
 class ofApp : public ofBaseApp{
 
@@ -11,6 +15,23 @@ class ofApp : public ofBaseApp{
 
 		void keyPressed(int key);
 		void keyReleased(int key);
+
+		// Game Components
+		Player player;
+		Emitter agentEmitter;
+
+		// GUI Components
+		ofxPanel gui;
+		ofxIntSlider energy;
+		ofxFloatSlider spawnRate;
+		ofxFloatSlider agentLifeSpan;
+		ofxFloatSlider agentSpeed;
+		ofxToggle showGui;
+
+		// Other game state variables
+		float gameTime;
+		bool gameStarted;
+
 		void mouseMoved(int x, int y );
 		void mouseDragged(int x, int y, int button);
 		void mousePressed(int x, int y, int button);
