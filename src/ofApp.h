@@ -1,9 +1,9 @@
 #pragma once
 
 #include "ofMain.h"
-#include "Player.h"
-#include "Emitter.h"
-#include "Agent.h"
+#include "../Player.h"
+#include "../Emitter.h"
+#include "../Agent.h"
 #include "ofxGui.h"
 
 class ofApp : public ofBaseApp{

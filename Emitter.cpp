@@ -13,9 +13,6 @@ void Emitter::setup(float x, float y) {
 	position = ofPoint(x, y);
 }
 
-void Emitter::setup(float x, float y) {
-	position = ofPoint(x, y);
-}
 
 void Emitter::update(ofPoint playerPosition) {
 	if (spawning && ofGetElapsedTimef() - lastSpawnTime > spawnRate) {
