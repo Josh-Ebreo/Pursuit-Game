@@ -23,14 +23,6 @@ void Emitter::update(ofPoint playerPosition) {
 		agents.push_back(newAgent);
 		lastSpawnTime = ofGetElapsedTimef();
 	}
-
-	// Update the agents
-	for (int i = 0; i < agents.size(); i++) {
-		agents[i].update(playerPosition);
-		if (agents[i].isDead() || agents[i].isOffScreen()) {
-			agents.erase(agents.begin() + i);
-		}
-	}
 }
 
 void Emitter::draw() {

@@ -32,7 +32,7 @@ void Agent::update(ofPoint playerPosition) {
 void Agent::draw() {
 	ofPushMatrix();
 	ofTranslate(position);
-	ofRotate(ofRadToDeg(angle));
+	ofRotateDeg(ofRadToDeg(angle));
 	ofDrawTriangle(0, -5, -10, 10, 10, 10);
 	ofPopMatrix();
 }
@@ -53,4 +53,8 @@ void Agent::setLifeSpan(float lifeSpan) {
 
 bool Agent::isDead() {
 	return dead;
+}
+
+void Agent::kill() { 
+	dead = true; 
 }

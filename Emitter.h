@@ -23,6 +23,8 @@ public:
 	bool spawning;
 	float lastSpawnTime;
 
+	std::vector<Agent>& getAgents() { return agents; }
+
 private:
 	std::vector<Agent> agents;
 };

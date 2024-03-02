@@ -8,7 +8,15 @@ public:
 	void setup(float x, float y, float speed);
 	void update();
 	void draw();
-	void move(int direction); // 0 = up, 1 = down, 2 = left, 3 = right
+	void keepPlayerOnScreen();
+	void rotate(float angle);
+
+	// Getters & Setters for position & speed
+	ofPoint getPosition() { return position; }
+	void setPosition(float x, float y) { position.set(x, y); }
+	float getSpeed() { return speed; }
+    void setSpeed(float speed) { this->speed = speed; }
+
 
 	ofPoint position;
 	float speed;

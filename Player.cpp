@@ -32,27 +32,7 @@ void Player::draw() {
 	}
 }
 
-void Player::move(int direction) {
-	switch (direction) {
-	case 0: // Up
-		position.y -= speed;
-		rotation = 0;
-		break;
-	case 1: // Down
-		position.y += speed;
-		rotation = 90;
-		break;
-	case 2: // Left
-		position.x -= speed;
-		rotation = 180;
-		break;
-	case 3: // Right
-		position.x += speed;
-		rotation = 270;
-		break;
-	}
-
-	// Keep the player on the screen
+void Player::keepPlayerOnScreen() {
 	if (position.x < 0) {
 		position.x = 0;
 	}
@@ -64,5 +44,16 @@ void Player::move(int direction) {
 	}
 	else if (position.y > ofGetHeight()) {
 		position.y = ofGetHeight();
+	}
+}
+
+void Player::rotate(float angle) {
+	rotation += angle;
+
+	if (rotation < 0) {
+		rotation += 360;
+	}
+	else if (rotation >= 360) {
+		rotation -= 360;
 	}
 }
