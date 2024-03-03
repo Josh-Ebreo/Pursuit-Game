@@ -44,5 +44,9 @@ class ofApp : public ofBaseApp{
 
 	private: 
 		const float collisionDistance = 30.0f;
+		bool moveUp = false;
+		bool moveDown = false;
+		bool rotateLeft = false;
+		bool rotateRight = false;
 		
 };

@@ -17,6 +17,24 @@ void Player::setup(float x, float y, float speed) {
 
 void Player::update() {
 	//Update player qualities like position, energy, etc.
+
+	float radians = ofDegToRad(rotation - 90); // Convert degrees to radians for calculation
+	ofVec2f direction(cos(radians), sin(radians)); // Calculate the direction vector based on the player's rotation
+
+	if (movingUp) {
+		position += direction * speed;
+	}
+	if (movingDown) {
+		position -= direction * speed;
+	}
+	if (rotatingLeft) {
+		rotate(-5.0); // Rotate left by 5 degrees
+	}
+	if (rotatingRight) {
+		rotate(5.0); // Rotate right by 5 degrees
+	}
+
+	keepPlayerOnScreen();
 }
 
 void Player::draw() {
@@ -56,4 +74,36 @@ void Player::rotate(float angle) {
 	else if (rotation >= 360) {
 		rotation -= 360;
 	}
+}
+
+void Player::rotateLeft() {
+	rotatingLeft = true;
+}
+
+void Player::rotateRight() {
+	rotatingRight = true;
+}
+
+void Player::moveUp() {
+	movingUp = true;
+}
+
+void Player::moveDown() {
+	movingDown = true;
+}
+
+void Player::stopMovingUp() {
+	movingUp = false;
+}
+
+void Player::stopMovingDown() {
+	movingDown = false;
+}
+
+void Player::stopRotatingLeft() {
+	rotatingLeft = false;
+}
+
+void Player::stopRotatingRight() {
+	rotatingRight = false;
 }

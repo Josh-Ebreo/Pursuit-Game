@@ -28,6 +28,7 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
 	if (gameStarted) {
+		// Update the state of the emitter and player
 		agentEmitter.update(player.position);
 		player.update();
 		
@@ -38,8 +39,6 @@ void ofApp::update(){
 				agent.setDead(true); // Mark the agent as dead to remove it
 			}
 		}
-
-		player.keepPlayerOnScreen(); // Keep the player within the screen boundaries
 	}
 }
 
@@ -69,34 +68,37 @@ void ofApp::keyPressed(int key){
 
     // Player movement handling based on "WASD" keys
     if (gameStarted) {
-        if (key == 'w' || key == 'W') { // If "W" is pressed, move the player up
-            player.setPosition(player.getPosition().x, player.getPosition().y - player.getSpeed());
-        }
-        if (key == 's' || key == 'S') { // If "S" is pressed, move the player down
-			player.setPosition(player.getPosition().x, player.getPosition().y + player.getSpeed());
-        }
-        if (key == 'a' || key == 'A') { // If "A" is pressed, move the player left
-			player.setPosition(player.getPosition().x - player.getSpeed(), player.getPosition().y);
-        }
-        if (key == 'd' || key == 'D') { // If "D" is pressed, move the player right
-			player.setPosition(player.getPosition().x + player.getSpeed(), player.getPosition().y);
-        }
-
-		// Player rotation handling based on 'Q' and 'E' keys
-
-		if (key == 'q' || key == 'Q') { // If "Q" is pressed, rotate the player left
-			player.rotate(-5.0);
+		// Set movement flags
+		if (key == 'w' || key == 'W') {
+			player.moveUp();
 		}
-		if (key == 'e' || key == 'E') { // If "E" is pressed, rotate the player right
-			player.rotate(5.0);
+		if (key == 's' || key == 'S') {
+			player.moveDown();
+		}
+		if (key == 'a' || key == 'A') { 
+			player.rotateLeft();
+		}
+		if (key == 'd' || key == 'D') {
+			player.rotateRight();
 		}
     }
-	
 }
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
-
+	// Unset movement flags
+	if (key == 'w' || key == 'W') {
+		player.stopMovingUp();
+	}
+	if (key == 's' || key == 'S') {
+		player.stopMovingDown();
+	}
+	if (key == 'a' || key == 'A') {
+		player.stopRotatingLeft();
+	}
+	if (key == 'd' || key == 'D') {
+		player.stopRotatingRight();
+	}
 }
 
 //--------------------------------------------------------------

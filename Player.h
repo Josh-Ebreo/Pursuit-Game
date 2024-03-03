@@ -11,6 +11,23 @@ public:
 	void keepPlayerOnScreen();
 	void rotate(float angle);
 
+	void rotateLeft();
+	void rotateRight();
+
+	void moveUp();
+	void moveDown();
+
+	// Movement flags
+	bool movingUp = false;
+	bool movingDown = false;
+	bool rotatingLeft = false;
+	bool rotatingRight = false;
+
+	void stopMovingUp();
+	void stopMovingDown();
+	void stopRotatingLeft();
+	void stopRotatingRight();
+
 	// Getters & Setters for position & speed
 	ofPoint getPosition() { return position; }
 	void setPosition(float x, float y) { position.set(x, y); }
