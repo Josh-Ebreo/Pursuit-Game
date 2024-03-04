@@ -14,9 +14,10 @@ void ofApp::setup(){
 	// GUI Setup
 	gui.setup();
 	gui.add(energy.setup("Energy", 100, 0, 100));
-	gui.add(spawnRate.setup("Spawn Rate", 1.0, 0.1, 10.0));
+	gui.add(spawnRate.setup("Agent Spawn Rate", 1.0, 0.1, 10.0));
 	gui.add(agentSpeed.setup("Agent Speed", 2.0, 0.1, 10.0));
-	gui.add(agentLifeSpan.setup("Life Span", 30.0, 1.0, 100.0));
+	gui.add(agentLifeSpan.setup("Agent Life Span", 30.0, 1.0, 100.0));
+	gui.add(nAgents.setup("Number of Agents", 1, 1, 10));
 	gui.add(showGui.setup("Show GUI", true));
 
 	// Game state initialization
@@ -26,15 +27,23 @@ void ofApp::setup(){
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
+void ofApp::update() {
 	if (gameStarted) {
-		// Update the state of the emitter and player
-		agentEmitter.update(player.position);
+		float elapsedTime = ofGetElapsedTimef();
+
+		// Update the emitter properties from the GUI sliders
+		agentEmitter.setSpawnRate(spawnRate);
+		agentEmitter.setAgentSpeed(agentSpeed);
+		agentEmitter.setLifeSpan(agentLifeSpan);
+		agentEmitter.setNAgents(nAgents);  // Set the number of agents to spawn based on the GUI slider
+
+		// Update the emitter, passing in the player's position
+		agentEmitter.update(elapsedTime, player.getPosition());
 		player.update();
-		
+
 		// Collision detection and energy management
 		for (auto& agent : agentEmitter.getAgents()) {
-			if (agent.getPosition().distance(player.position) < collisionDistance) {
+			if (agent.getPosition().distance(player.getPosition()) < collisionDistance) {
 				player.energy -= 1; // Assuming each collision costs 1 energy
 				agent.setDead(true); // Mark the agent as dead to remove it
 			}

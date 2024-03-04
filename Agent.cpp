@@ -14,18 +14,26 @@ Agent::Agent() {
 void Agent::setup(ofPoint spawnPoint, float maxSpeed) {
 	position = spawnPoint;
 	this->maxSpeed = maxSpeed;
+	float randomAngle = ofRandom(TWO_PI);  // Random angle in radians
+	velocity.set(cos(randomAngle) * maxSpeed, sin(randomAngle) * maxSpeed);  // Setting velocity in a random direction
+	birthTime = ofGetElapsedTimef();
 }
 
 void Agent::update(ofPoint playerPosition) {
-	ofPoint direction = playerPosition - position;
-	direction.normalize(); // Normalize the vector so that the agent moves at a constant speed
-	velocity = direction * maxSpeed;
-	position += velocity; 
-
-	angle = atan2(direction.y, direction.x); // Calculate the angle between the direction vector and the x-axis
-
-	if (lifespan > 0 && ofGetElapsedTimef() > birthTime + lifespan) {
+	if (!isDead() && lifespan > 0 && (ofGetElapsedTimef() - birthTime > lifespan)) {
 		dead = true;
+	}
+	else {
+		// Calculate direction towards the player
+		ofPoint direction = playerPosition - position;
+		direction.normalize();
+		velocity = direction * maxSpeed;
+
+		// Update position
+		position += velocity;
+
+		// Update angle based on the new velocity
+		angle = atan2(velocity.y, velocity.x) * RAD_TO_DEG;
 	}
 }
 
@@ -33,7 +41,9 @@ void Agent::draw() {
 	ofPushMatrix();
 	ofTranslate(position);
 	ofRotateDeg(ofRadToDeg(angle));
-	ofDrawTriangle(0, -5, -10, 10, 10, 10);
+	ofSetColor(ofColor::red);
+	ofDrawTriangle(0, -5, -10, 10, 10, 10); 
+	ofSetColor(ofColor::white);
 	ofPopMatrix();
 }
 

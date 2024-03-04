@@ -26,6 +26,7 @@ class ofApp : public ofBaseApp{
 		ofxFloatSlider spawnRate;
 		ofxFloatSlider agentLifeSpan;
 		ofxFloatSlider agentSpeed;
+		ofxIntSlider nAgents;
 		ofxToggle showGui;
 
 		// Other game state variables

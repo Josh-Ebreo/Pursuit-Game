@@ -1,4 +1,5 @@
 #include "Emitter.h"
+#include "Agent.h"
 
 Emitter::Emitter() {
 	position = ofPoint(ofGetWidth() / 2, ofGetHeight() / 2);
@@ -10,19 +11,26 @@ Emitter::Emitter() {
 }
 
 void Emitter::setup(float x, float y) {
-	position = ofPoint(x, y);
+	position.set(x, y);
 }
 
-
-void Emitter::update(ofPoint playerPosition) {
-	if (spawning && ofGetElapsedTimef() - lastSpawnTime > spawnRate) {
-		// Create a new agent
-		Agent newAgent;
-		newAgent.setup(position, agentSpeed);
-		newAgent.setLifeSpan(agentLifeSpan);
-		agents.push_back(newAgent);
-		lastSpawnTime = ofGetElapsedTimef();
+void Emitter::update(float elapsedTime, ofPoint playerPosition) {
+	if (spawning && elapsedTime - lastSpawnTime >= 1.0f / spawnRate) {
+		for (int i = 0; i < nAgents; i++) {
+			Agent newAgent;
+			ofPoint spawnPoint(ofRandomWidth(), ofRandomHeight());
+			newAgent.setup(spawnPoint, ofRandom(0.5 * agentSpeed, 1.5 * agentSpeed));
+			newAgent.setLifeSpan(ofRandom(0.5 * agentLifeSpan, 1.5 * agentLifeSpan));
+			agents.push_back(newAgent);
+		}
+		lastSpawnTime = elapsedTime;
 	}
+
+	for (auto& agent : agents) {
+		agent.update(playerPosition);
+	}
+
+	agents.erase(std::remove_if(agents.begin(), agents.end(), [](Agent& a) { return a.isDead(); }), agents.end());
 }
 
 void Emitter::draw() {
@@ -49,4 +57,8 @@ void Emitter::setLifeSpan(float lifeSpan) {
 
 void Emitter::setAgentSpeed(float speed) {
 	this->agentSpeed = speed;
+}
+
+void Emitter::setNAgents(int n) {
+	nAgents = n;
 }
