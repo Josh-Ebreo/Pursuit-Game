@@ -26,14 +26,16 @@ void Agent::update(ofPoint playerPosition) {
 	else {
 		// Calculate direction towards the player
 		ofPoint direction = playerPosition - position;
-		direction.normalize();
-		velocity = direction * maxSpeed;
+		float desiredAngle = atan2(direction.y, direction.x);
+
+		// Using my custom lerpAngle function to smoothly interpolate the angle
+		angle = lerpAngle(angle, desiredAngle, 0.05);
+
+		// Use the updated angle to set the velocity
+		velocity.set(cos(angle) * maxSpeed, sin(angle) * maxSpeed);
 
 		// Update position
 		position += velocity;
-
-		// Update angle based on the new velocity
-		angle = atan2(velocity.y, velocity.x) * RAD_TO_DEG;
 	}
 }
 
@@ -67,4 +69,12 @@ bool Agent::isDead() {
 
 void Agent::kill() { 
 	dead = true; 
+}
+
+// Function to smoothly interpolate between two angles
+// Doesn't exist in my version of openFrameworks for some reason, 
+// so I have to define it myself
+float Agent::lerpAngle(float current, float target, float factor) {
+	float difference = fmod(target - current + 180, 360) - 180;
+	return current + difference * factor;
 }

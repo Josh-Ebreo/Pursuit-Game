@@ -12,6 +12,7 @@ public:
 	void setLifeSpan(float lifeSpan);
 	bool isDead();
 	void kill();
+	float lerpAngle(float current, float target, float factor);
 
 	// Getters and setters for position and velocity
 	ofPoint getPosition() const { return position; }

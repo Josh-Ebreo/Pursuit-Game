@@ -107,3 +107,11 @@ void Player::stopRotatingLeft() {
 void Player::stopRotatingRight() {
 	rotatingRight = false;
 }
+
+void Player::decreaseEnergy() {
+	energy -= 1;
+}
+
+void Player::displayEnergy() {
+	ofDrawBitmapString("Energy: " + ofToString(energy), 10, 20);
+}

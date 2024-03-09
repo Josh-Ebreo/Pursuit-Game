@@ -28,6 +28,9 @@ public:
 	void stopRotatingLeft();
 	void stopRotatingRight();
 
+	void decreaseEnergy();
+	void displayEnergy();
+
 	// Getters & Setters for position & speed
 	ofPoint getPosition() { return position; }
 	void setPosition(float x, float y) { position.set(x, y); }

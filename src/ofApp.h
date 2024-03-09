@@ -20,6 +20,19 @@ class ofApp : public ofBaseApp{
 		Player player;
 		Emitter agentEmitter;
 
+		enum PlayerAction {
+			MOVE_UP,
+			MOVE_DOWN,
+			ROTATE_LEFT,
+			ROTATE_RIGHT,
+			TOGGLE_GUI,
+			START_GAME,
+			// Add other actions here...
+		};
+
+		std::map<int, PlayerAction> keyMap;
+		void setupKeyMap();
+
 		// GUI Components
 		ofxPanel gui;
 		ofxIntSlider energy;
@@ -32,6 +45,7 @@ class ofApp : public ofBaseApp{
 		// Other game state variables
 		float gameTime;
 		bool gameStarted;
+		bool isGameOver;
 
 		void mouseMoved(int x, int y );
 		void mouseDragged(int x, int y, int button);
