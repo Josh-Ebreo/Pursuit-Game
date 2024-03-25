@@ -104,10 +104,9 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Agent.cpp" />
-    <ClCompile Include="Emitter.cpp" />
-    <ClCompile Include="GUIPanel.cpp" />
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="src\Agent.cpp" />
+    <ClCompile Include="src\Emitter.cpp" />
+    <ClCompile Include="src\GUIPanel.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxBaseGui.cpp" />
@@ -120,11 +119,11 @@
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxSlider.cpp" />
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxSliderGroup.cpp" />
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp" />
+    <ClCompile Include="src\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Agent.h" />
-    <ClInclude Include="Emitter.h" />
-    <ClInclude Include="Player.h" />
+    <ClInclude Include="src\Agent.h" />
+    <ClInclude Include="src\Emitter.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxBaseGui.h" />
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxButton.h" />
@@ -138,6 +137,7 @@
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxSlider.h" />
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxSliderGroup.h" />
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxToggle.h" />
+    <ClInclude Include="src\Player.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(OF_ROOT)\libs\openFrameworksCompiled\project\vs\openframeworksLib.vcxproj">

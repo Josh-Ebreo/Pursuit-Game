@@ -22,6 +22,7 @@ public:
 	bool movingDown = false;
 	bool rotatingLeft = false;
 	bool rotatingRight = false;
+	bool energyHasBeenSet = false;
 
 	void stopMovingUp();
 	void stopMovingDown();
@@ -31,16 +32,18 @@ public:
 	void decreaseEnergy();
 	void displayEnergy();
 
-	// Getters & Setters for position & speed
 	ofPoint getPosition() { return position; }
 	void setPosition(float x, float y) { position.set(x, y); }
 	float getSpeed() { return speed; }
     void setSpeed(float speed) { this->speed = speed; }
+	float getScale() { return scale; }
+	void setScale(float scale) { this->scale = scale; }
 
 
 	ofPoint position;
 	float speed;
 	float rotation;
+	float scale;
 	int energy;
 
 private:

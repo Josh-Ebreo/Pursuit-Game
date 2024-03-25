@@ -6,6 +6,7 @@ Player::Player() {
 	speed = 5.0;
 	rotation = 0;
 	energy = 100;
+	scale = 1.0;
 }
 
 void Player::setup(float x, float y, float speed) {
@@ -45,7 +46,8 @@ void Player::draw() {
 		ofPushMatrix();
 		ofTranslate(position.x, position.y);
 		ofRotate(rotation);
-		ofDrawTriangle(0, -15, -10, 10, 10, 10);
+		ofScale(scale, scale);
+		ofDrawTriangle(0, -15 * scale, -10 * scale, 10 * scale, 10 * scale, 10 * scale);
 		ofPopMatrix();
 	}
 }
@@ -113,5 +115,5 @@ void Player::decreaseEnergy() {
 }
 
 void Player::displayEnergy() {
-	ofDrawBitmapString("Energy: " + ofToString(energy), 10, 20);
+	ofDrawBitmapString("Energy: " + ofToString(energy), ofGetWidth() / 2, 20);
 }

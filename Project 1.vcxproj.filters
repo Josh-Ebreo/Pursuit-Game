@@ -37,16 +37,16 @@
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp">
       <Filter>addons\ofxGui\src</Filter>
     </ClCompile>
-    <ClCompile Include="Agent.cpp">
+    <ClCompile Include="src\Agent.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
+    <ClCompile Include="src\Emitter.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="Emitter.cpp">
+    <ClCompile Include="src\GUIPanel.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="GUIPanel.cpp">
+    <ClCompile Include="src\Player.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -104,13 +104,13 @@
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxToggle.h">
       <Filter>addons\ofxGui\src</Filter>
     </ClInclude>
-    <ClInclude Include="Agent.h">
+    <ClInclude Include="src\Agent.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
+    <ClInclude Include="src\Emitter.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="Emitter.h">
+    <ClInclude Include="src\Player.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

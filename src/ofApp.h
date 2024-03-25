@@ -1,9 +1,9 @@
 #pragma once
 
 #include "ofMain.h"
-#include "../Player.h"
-#include "../Emitter.h"
-#include "../Agent.h"
+#include "Player.h"
+#include "Emitter.h"
+#include "Agent.h"
 #include "ofxGui.h"
 
 class ofApp : public ofBaseApp{
@@ -20,6 +20,8 @@ class ofApp : public ofBaseApp{
 		Player player;
 		Emitter agentEmitter;
 
+		ofImage SpaceBackground;
+
 		enum PlayerAction {
 			MOVE_UP,
 			MOVE_DOWN,
@@ -27,7 +29,8 @@ class ofApp : public ofBaseApp{
 			ROTATE_RIGHT,
 			TOGGLE_GUI,
 			START_GAME,
-			// Add other actions here...
+			RESTART_GAME,
+			TOGGLE_AGENT
 		};
 
 		std::map<int, PlayerAction> keyMap;
@@ -35,17 +38,34 @@ class ofApp : public ofBaseApp{
 
 		// GUI Components
 		ofxPanel gui;
-		ofxIntSlider energy;
-		ofxFloatSlider spawnRate;
-		ofxFloatSlider agentLifeSpan;
-		ofxFloatSlider agentSpeed;
-		ofxIntSlider nAgents;
+		ofxIntSlider difficultyLevel;
+		ofParameter<float> playerScaleParam;
+		ofParameter<float> spawnRateParam;
+		ofParameter<float> agentSpeedParam;
+		ofParameter<float> agentTurningSpeedParam;
+		ofParameter<float> agentLifeSpanParam;
+		ofParameter<int> nAgentsParam;
 		ofxToggle showGui;
 
 		// Other game state variables
 		float gameTime;
+		float finalGameTime;
 		bool gameStarted;
 		bool isGameOver;
+		bool difficultyHasBeenSet;
+		bool bDifficultyChanged;
+		void adjustDifficulty(int level);
+		void difficultyChanged(int& level);
+
+		void onPlayerScaleChanged(float& scale);
+		void onSpawnRateChanged(float& rate);
+		void onAgentSpeedChanged(float& speed);
+		void onAgentTurningSpeedChanged(float& turningSpeed);
+		void onAgentLifeSpanChanged(float& lifespan);
+		void onNAgentsChanged(int& nAgents);
+		void restartGame();
+		void toggleAgentSprite();
+
 
 		void mouseMoved(int x, int y );
 		void mouseDragged(int x, int y, int button);
@@ -58,7 +78,7 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 
 	private: 
-		const float collisionDistance = 30.0f;
+		const float collisionDistance = 15.0f; // Hard coded the distance from the player to the agents
 		bool moveUp = false;
 		bool moveDown = false;
 		bool rotateLeft = false;

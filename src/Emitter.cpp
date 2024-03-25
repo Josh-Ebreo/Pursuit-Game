@@ -6,8 +6,10 @@ Emitter::Emitter() {
 	spawnRate = 1.0;
 	agentLifeSpan = 5.0;
 	agentSpeed = 2.0;
+	agentTurningSpeed = 0.25;
 	spawning = false;
 	lastSpawnTime = 0;
+	nAgents = 0;
 }
 
 void Emitter::setup(float x, float y) {
@@ -15,11 +17,12 @@ void Emitter::setup(float x, float y) {
 }
 
 void Emitter::update(float elapsedTime, ofPoint playerPosition) {
-	if (spawning && elapsedTime - lastSpawnTime >= 1.0f / spawnRate) {
+	if (spawning && (elapsedTime - lastSpawnTime) >= (1.0f / spawnRate)) {
 		for (int i = 0; i < nAgents; i++) {
 			Agent newAgent;
 			ofPoint spawnPoint(ofRandomWidth(), ofRandomHeight());
-			newAgent.setup(spawnPoint, ofRandom(0.5 * agentSpeed, 1.5 * agentSpeed));
+			float randomSpeed = ofRandom(0.5 * agentSpeed, 1.5 * agentSpeed);
+			newAgent.setup(spawnPoint, randomSpeed, agentTurningSpeed);
 			newAgent.setLifeSpan(ofRandom(0.5 * agentLifeSpan, 1.5 * agentLifeSpan));
 			agents.push_back(newAgent);
 		}
@@ -30,6 +33,7 @@ void Emitter::update(float elapsedTime, ofPoint playerPosition) {
 		agent.update(playerPosition);
 	}
 
+	// Remove dead agents
 	agents.erase(std::remove_if(agents.begin(), agents.end(), [](Agent& a) { return a.isDead(); }), agents.end());
 }
 
@@ -41,6 +45,7 @@ void Emitter::draw() {
 
 void Emitter::start() {
 	spawning = true;
+	lastSpawnTime = ofGetElapsedTimef();
 }
 
 void Emitter::stop() {
@@ -60,5 +65,26 @@ void Emitter::setAgentSpeed(float speed) {
 }
 
 void Emitter::setNAgents(int n) {
-	nAgents = n;
+	if (n >= 0) {
+		nAgents = n;
+	} else {
+		std::cerr << "Number of agents to spawn must be non-negative." << std::endl;
+	}
+}
+
+void Emitter::setAgentTurningSpeed(float turningSpeed) {
+	this->agentTurningSpeed = turningSpeed;
+	for (auto& agent : agents) {
+		agent.setTurningSpeed(turningSpeed);
+	}
+}
+
+void Emitter::clearAgents() {
+	agents.clear();
+}
+
+void Emitter::reset(float currentTime) {
+	clearAgents();
+	lastSpawnTime = 0;
+	spawning = true;
 }
