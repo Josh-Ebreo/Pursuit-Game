@@ -5,17 +5,10 @@
 class Player {
 public:
 	Player();
-	void setup(float x, float y, float speed);
+	void setup(float x, float y, float movementSpeed, float turnSpeed);
 	void update();
 	void draw();
 	void keepPlayerOnScreen();
-	void rotate(float angle);
-
-	void rotateLeft();
-	void rotateRight();
-
-	void moveUp();
-	void moveDown();
 
 	// Movement flags
 	bool movingUp = false;
@@ -24,28 +17,37 @@ public:
 	bool rotatingRight = false;
 	bool energyHasBeenSet = false;
 
-	void stopMovingUp();
-	void stopMovingDown();
-	void stopRotatingLeft();
-	void stopRotatingRight();
-
+	void applyForce(ofPoint force);
+	void applyTorque(float torque);
 	void decreaseEnergy();
 	void displayEnergy();
 
 	ofPoint getPosition() { return position; }
 	void setPosition(float x, float y) { position.set(x, y); }
-	float getSpeed() { return speed; }
-    void setSpeed(float speed) { this->speed = speed; }
+	float getMovementSpeed() { return movementSpeed; }
+	void setMovementSpeed(float movementSpeed) { this->movementSpeed = movementSpeed; }
+	float getTurnSpeed() { return turnSpeed; }
+	void setTurnSpeed(float turnSpeed) { this->turnSpeed = turnSpeed; }
 	float getScale() { return scale; }
 	void setScale(float scale) { this->scale = scale; }
 
-
 	ofPoint position;
-	float speed;
-	float rotation;
+	ofVec2f velocity;
+	ofVec2f acceleration;
 	float scale;
+	float damping;
 	int energy;
 
-private:
+	float movementSpeed;
+	float turnSpeed;
+
+
+	float angularVelocity;
+	float angularAcceleration;
+	float rotation;
+
 	ofImage sprite; // The sprite for the player
+
+	void updateMovement();
+	void updatePhysics();
 };

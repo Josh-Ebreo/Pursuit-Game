@@ -5,7 +5,7 @@ Emitter::Emitter() {
 	position = ofPoint(ofGetWidth() / 2, ofGetHeight() / 2);
 	spawnRate = 1.0;
 	agentLifeSpan = 5.0;
-	agentSpeed = 2.0;
+	agentSpeed = 1.0;
 	agentTurningSpeed = 0.25;
 	spawning = false;
 	lastSpawnTime = 0;
@@ -21,9 +21,8 @@ void Emitter::update(float elapsedTime, ofPoint playerPosition) {
 		for (int i = 0; i < nAgents; i++) {
 			Agent newAgent;
 			ofPoint spawnPoint(ofRandomWidth(), ofRandomHeight());
-			float randomSpeed = ofRandom(0.5 * agentSpeed, 1.5 * agentSpeed);
-			newAgent.setup(spawnPoint, randomSpeed, agentTurningSpeed);
-			newAgent.setLifeSpan(ofRandom(0.5 * agentLifeSpan, 1.5 * agentLifeSpan));
+			newAgent.setup(spawnPoint, agentSpeed, agentTurningSpeed);
+			newAgent.setLifeSpan(agentLifeSpan);
 			agents.push_back(newAgent);
 		}
 		lastSpawnTime = elapsedTime;

@@ -3,39 +3,27 @@
 Player::Player() {
 	// Set the initial position and velocity
 	position = ofPoint(ofGetWidth() / 2, ofGetHeight() / 2);
-	speed = 5.0;
+	movementSpeed = 1.0;
+	turnSpeed = 1.0;
 	rotation = 0;
 	energy = 100;
 	scale = 1.0;
+	damping = 0.95;
 }
 
-void Player::setup(float x, float y, float speed) {
-	position = ofPoint(x, y);
-	this->speed = speed;
+void Player::setup(float x, float y, float movementSpeed, float turnSpeed) {
+	position.set(x, y);
+	this->movementSpeed = movementSpeed;
+	this->turnSpeed = turnSpeed;
 
 	//sprite.load("player.png");
 }
 
 void Player::update() {
-	//Update player qualities like position, energy, etc.
-
-	float radians = ofDegToRad(rotation - 90); // Convert degrees to radians for calculation
-	ofVec2f direction(cos(radians), sin(radians)); // Calculate the direction vector based on the player's rotation
-
-	if (movingUp) {
-		position += direction * speed;
-	}
-	if (movingDown) {
-		position -= direction * speed;
-	}
-	if (rotatingLeft) {
-		rotate(-5.0); // Rotate left by 5 degrees
-	}
-	if (rotatingRight) {
-		rotate(5.0); // Rotate right by 5 degrees
-	}
-
+	updateMovement();
+	updatePhysics();
 	keepPlayerOnScreen();
+	displayEnergy();
 }
 
 void Player::draw() {
@@ -52,6 +40,56 @@ void Player::draw() {
 	}
 }
 
+void Player::updateMovement() {
+	// Convert degrees to radians for calculation
+	float radians = ofDegToRad(rotation - 90);
+
+	// Calculate the direction vector based on the player's rotation
+	ofVec2f direction(cos(radians), sin(radians));
+	
+	float slowDownMovement = 0.25;
+	float slowDownTurn = 0.05;
+
+	float slowMovementSpeed = movementSpeed * slowDownMovement;
+	float slowTurnSpeed = turnSpeed * slowDownTurn;
+
+	// Use movementSpeed for force calculation
+	if (movingUp) acceleration += direction * slowMovementSpeed;
+	if (movingDown) acceleration -= direction * slowMovementSpeed;
+
+	// Use turnSpeed for angular acceleration
+	if (rotatingLeft) angularAcceleration -= slowTurnSpeed;
+	if (rotatingRight) angularAcceleration += slowTurnSpeed;
+}
+
+void Player::updatePhysics() {
+	// Update velocity based on acceleration
+	velocity += acceleration;
+	velocity *= damping;
+	position += velocity;
+
+	// Update angular velocity and rotation
+	angularVelocity += angularAcceleration;
+	angularVelocity *= damping;
+	rotation += angularVelocity;
+
+	// Reset acceleration
+	acceleration.set(0, 0);
+	angularAcceleration = 0;
+
+	// Update angular velocity and rotation
+	angularVelocity += angularAcceleration;
+	rotation += angularVelocity;
+}
+
+void Player::applyForce(ofPoint force) {
+	acceleration += force / movementSpeed;
+}
+
+void Player::applyTorque(float torque) {
+	angularAcceleration += torque / turnSpeed;
+}
+
 void Player::keepPlayerOnScreen() {
 	if (position.x < 0) {
 		position.x = 0;
@@ -65,49 +103,6 @@ void Player::keepPlayerOnScreen() {
 	else if (position.y > ofGetHeight()) {
 		position.y = ofGetHeight();
 	}
-}
-
-void Player::rotate(float angle) {
-	rotation += angle;
-
-	if (rotation < 0) {
-		rotation += 360;
-	}
-	else if (rotation >= 360) {
-		rotation -= 360;
-	}
-}
-
-void Player::rotateLeft() {
-	rotatingLeft = true;
-}
-
-void Player::rotateRight() {
-	rotatingRight = true;
-}
-
-void Player::moveUp() {
-	movingUp = true;
-}
-
-void Player::moveDown() {
-	movingDown = true;
-}
-
-void Player::stopMovingUp() {
-	movingUp = false;
-}
-
-void Player::stopMovingDown() {
-	movingDown = false;
-}
-
-void Player::stopRotatingLeft() {
-	rotatingLeft = false;
-}
-
-void Player::stopRotatingRight() {
-	rotatingRight = false;
 }
 
 void Player::decreaseEnergy() {

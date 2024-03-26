@@ -30,7 +30,6 @@ public:
 
 	std::vector<Agent>& getAgents() { return agents; }
 
-private:
 	std::vector<Agent> agents;
 	int nAgents;
 };
