@@ -33,11 +33,11 @@ void ofApp::initializeGui() {
 	playerScaleParam.set("Player Scale", 1.0, 0.5, 2.0);
 	playerMovementSpeedParam.set("Player Movement Speed", 1.0, 0.5, 2.0);
 	playerTurningSpeedParam.set("Player Turning Speed", 1.0, 1.0, 2.0);
-	spawnRateParam.set("Agent Spawn Rate", 1.0, 0.5, 5.0);
-	agentSpeedParam.set("Agent Speed", 0.5, 0.1, 1.0);
-	agentTurningSpeedParam.set("Agent Turning Speed", 1.0, 1.0, 2.0);
+	spawnRateParam.set("Agent Spawn Rate", 3.0, 0.5, 5.0);
+	agentSpeedParam.set("Agent Speed", 1.0, 0.75, 2.0);
+	agentTurningSpeedParam.set("Agent Turning Speed", 1.0, 0.5, 1.5);
 	agentLifeSpanParam.set("Agent Life Span", 5.0, 1.0, 15.0);
-	nAgentsParam.set("Number of Agents", 1, 1, 5);
+	nAgentsParam.set("Number of Agents", 5, 1, 5);
 
 	// Add parameters to the GUI
 	gui.add(difficultyLevel.setup("Difficulty Level", 1, 1, 3));
@@ -102,6 +102,10 @@ void ofApp::drawGame() {
 	// Display ongoing game time
 	float currentGameTime = ofGetElapsedTimef() - gameTime;
 	ofDrawBitmapString("Game Time: " + ofToString(currentGameTime, 2) + " seconds", ofGetWidth() - 210, 40);
+
+	// Display the player's energy in the upper center of the screen
+	string energyText = "Energy: " + ofToString(player.energy);
+	ofDrawBitmapString(energyText, (ofGetWidth() - energyText.length() * 8) / 2, 20); // 8 is approx width of a character
 }
 
 void ofApp::drawGameOver() {
@@ -221,24 +225,24 @@ void ofApp::adjustDifficulty(int level) {
 	switch (level) {
 	case 1: // Easy
 		newSpawnRate = 0.5f;
-		newAgentSpeed = 0.1f;
-		newAgentTurningSpeed = 1.0f;
+		newAgentSpeed = 1.0f;
+		newAgentTurningSpeed = 0.5f;
 		newAgentLifeSpan = 10.0f;
-		newNAgents = 1;
+		newNAgents = 5;
 		break;
 	case 2: // Medium
 		newSpawnRate = 1.0f;
-		newAgentSpeed = 0.5f;
-		newAgentTurningSpeed = 1.5f;
+		newAgentSpeed = 1.5f;
+		newAgentTurningSpeed = 1.0f;
 		newAgentLifeSpan = 5.0f;
 		newNAgents = 3;
 		break;
 	case 3: // Hard
 		newSpawnRate = 2.0f;
-		newAgentSpeed = 1.0f;
-		newAgentTurningSpeed = 2.0f;
+		newAgentSpeed = 2.0f;
+		newAgentTurningSpeed = 1.5f;
 		newAgentLifeSpan = 3.0f;
-		newNAgents = 5;
+		newNAgents = 1;
 		break;
 	}
 

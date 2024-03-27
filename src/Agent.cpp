@@ -49,8 +49,11 @@ void Agent::updateMovement(ofPoint playerPosition) {
 	// Moving towards the player
 	direction.normalize();
 
+	// Scale the speed by a factor to make the agent move slower
+	float speedScaleFactor = 0.1;
+
 	// Apply force in the direction of the player
-	applyForce(direction * maxSpeed);
+	applyForce(direction * maxSpeed * speedScaleFactor);
 }
 
 void Agent::updatePhysics() {
@@ -117,9 +120,11 @@ void Agent::kill() {
 // Doesn't exist in my version of openFrameworks for some reason, 
 // so I have to define it myself
 float Agent::lerpAngle(float current, float target, float factor) {
-	float delta = target - current;
-	float difference = fmod(delta + PI, TWO_PI) - PI;
-	return current + difference * factor * turningSpeed;
+	// Smooth interpolation between current and target angles
+	float delta = fmod(target - current + 360, 360);
+	if (delta > 180)
+		delta -= 360;
+	return current + delta * factor;
 }
 
 void Agent::applyForce(ofPoint force) {

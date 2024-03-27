@@ -49,6 +49,12 @@
     <ClCompile Include="src\Player.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\ParticleRay.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RayEmitter.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -111,6 +117,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Player.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParticleRay.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RayEmitter.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

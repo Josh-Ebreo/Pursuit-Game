@@ -62,7 +62,6 @@ public:
 	// Methods for handling game state and GUI
 	void initializeGui();
 	void updateGameState(float currentElapsedTime);
-	void adjustGameParameters();
 	void drawGame();
 	void drawGameOver();
 
