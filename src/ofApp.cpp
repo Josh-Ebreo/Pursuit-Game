@@ -149,6 +149,8 @@ void ofApp::setupKeyMap() {
 	keyMap['R'] = RESTART_GAME;
 	keyMap['t'] = TOGGLE_AGENT;
 	keyMap['T'] = TOGGLE_AGENT;
+	keyMap['k'] = SHOOT;
+	keyMap['K'] = SHOOT;
 }
 
 //--------------------------------------------------------------
@@ -186,11 +188,12 @@ void ofApp::keyPressed(int key) {
 		case TOGGLE_AGENT:
 			toggleAgentSprite();
 			break;
+		case SHOOT:
+			player.canShoot = true;
+			break;
 		}
 	}
 }
-
-
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key) {
@@ -209,6 +212,9 @@ void ofApp::keyReleased(int key) {
 			break;
 		case ROTATE_RIGHT:
 			player.rotatingRight = false;
+			break;
+		case SHOOT:
+			player.canShoot = false;
 			break;
 		}
 	}

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "RayEmitter.h"
 
 class Player {
 public:
@@ -50,4 +51,9 @@ public:
 
 	void updateMovement();
 	void updatePhysics();
+
+	RayEmitter rayEmitter; // The particle emitter for the player
+	void alignEmitter();
+	void shoot();
+	bool canShoot = false;
 };

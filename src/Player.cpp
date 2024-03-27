@@ -9,6 +9,8 @@ Player::Player() {
 	energy = 100;
 	scale = 1.0;
 	damping = 0.95;
+	rayEmitter.setup(position, 10, ofVec2f(0, -5), 2.0f);
+	canShoot = false;
 }
 
 void Player::setup(float x, float y, float movementSpeed, float turnSpeed) {
@@ -24,6 +26,14 @@ void Player::update() {
 	updatePhysics();
 	keepPlayerOnScreen();
 	displayEnergy();
+	alignEmitter();
+	rayEmitter.update();
+
+	// Add this check to call shoot only when canShoot is true
+	if (canShoot) {
+		shoot();
+		canShoot = false; // Reset the flag after shooting
+	}
 }
 
 void Player::draw() {
@@ -38,6 +48,8 @@ void Player::draw() {
 		ofDrawTriangle(0, -15 * scale, -10 * scale, 10 * scale, 10 * scale, 10 * scale);
 		ofPopMatrix();
 	}
+	// After drawing the player, draw the rayEmitter
+	rayEmitter.draw();
 }
 
 void Player::updateMovement() {
@@ -111,4 +123,23 @@ void Player::decreaseEnergy() {
 
 void Player::displayEnergy() {
 	ofDrawBitmapString("Energy: " + ofToString(energy), ofGetWidth() / 2, 20);
+}
+
+void Player::alignEmitter() {
+	float radians = ofDegToRad(rotation -  90);
+	ofVec2f direction(cos(radians), sin(radians));
+
+	// Emitter alignment
+	ofPoint tipOffset = direction * (scale);
+	rayEmitter.position = position + tipOffset;
+
+	// Emitter direction during motion
+	rayEmitter.velocity = direction.normalized() * rayEmitter.velocity.length();
+}
+
+void Player::shoot() {
+	if (canShoot) {
+		rayEmitter.shouldEmit = true;
+		canShoot = false; // Reset the flag
+	}
 }

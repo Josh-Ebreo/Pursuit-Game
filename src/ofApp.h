@@ -30,7 +30,8 @@ public:
 		TOGGLE_GUI,
 		START_GAME,
 		RESTART_GAME,
-		TOGGLE_AGENT
+		TOGGLE_AGENT,
+		SHOOT
 	};
 
 	std::map<int, PlayerAction> keyMap;
