@@ -16,6 +16,7 @@ public:
     ofVec2f velocity;
     float lifespan;
     float creationTime;
-    bool dead;
+    bool dead = false;
+    float age = 0;
 };
 #pragma once

@@ -113,7 +113,7 @@ bool Agent::isDead() {
 }
 
 void Agent::kill() { 
-	dead = true; 
+	dead = true;
 }
 
 // Function to smoothly interpolate between two angles

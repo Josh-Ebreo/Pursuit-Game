@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ParticleRay.h"
 #include "ofMain.h"
 
 class Agent {

@@ -16,7 +16,6 @@ void ofApp::setup(){
 	agentEmitter.setNAgents(5);
 	agentEmitter.start(); // This starts the spawning processly
 
-
 	// Game state initialization
 	gameTime = ofGetElapsedTimef();
 	finalGameTime = 0;
@@ -114,28 +113,24 @@ void ofApp::drawGameOver() {
 }
 
 void ofApp::updateGameState(float currentElapsedTime) {
-
 	player.update();
 	agentEmitter.update(currentElapsedTime - gameTime, player.getPosition());
 
 	// Check for collisions between the player and agents
 	for (auto& agent : agentEmitter.getAgents()) {
 		if (!agent.isDead() && player.getPosition().distance(agent.getPosition()) < collisionDistance) {
-			// If the player collides with an agent, reduce player's energy and kill the agent
-			player.decreaseEnergy();  // Assuming this method decreases energy by 1 or a defined value
+			player.decreaseEnergy();
 			agent.kill();
 		}
 	}
 
-	// Collision detection between ParticleRays and Agents for increasing energy
+	// Check for collisions between ParticleRays and Agents
 	for (auto& particle : player.rayEmitter.particles) {
 		if (!particle.isDead()) {
 			for (auto& agent : agentEmitter.getAgents()) {
 				if (!agent.isDead() && particle.position.distance(agent.getPosition()) < collisionDistance) {
-					agent.kill(); // Kill the agent upon collision
-					particle.kill(); // Deactivate the particle after collision
-
-					// Increase player's energy, ensuring it does not exceed 100
+					agent.kill();
+					particle.kill();
 					if (player.energy < 100) {
 						player.energy++;
 					}
@@ -144,12 +139,13 @@ void ofApp::updateGameState(float currentElapsedTime) {
 		}
 	}
 
-	// Check player energy for game over condition
+	// Game over condition
 	if (player.energy <= 0) {
 		isGameOver = true;
 		finalGameTime = currentElapsedTime - gameTime;
 	}
 }
+
 
 void ofApp::setupKeyMap() {
 	keyMap['w'] = MOVE_UP;
@@ -169,6 +165,8 @@ void ofApp::setupKeyMap() {
 	keyMap['T'] = TOGGLE_AGENT;
 	keyMap['k'] = SHOOT;
 	keyMap['K'] = SHOOT;
+	keyMap['p'] = EXPLODE;
+	keyMap['P'] = EXPLODE;
 }
 
 //--------------------------------------------------------------
