@@ -106,7 +106,6 @@
   <ItemGroup>
     <ClCompile Include="src\Agent.cpp" />
     <ClCompile Include="src\Emitter.cpp" />
-    <ClCompile Include="src\GUIPanel.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxBaseGui.cpp" />

@@ -18,3 +18,7 @@ void ParticleRay::draw() {
 bool ParticleRay::isDead() const {
     return (ofGetElapsedTimef() - creationTime) > lifespan;
 }
+
+void ParticleRay::kill() {
+    dead = true;
+}

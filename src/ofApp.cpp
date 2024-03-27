@@ -10,10 +10,10 @@ void ofApp::setup(){
 	// Set up the emitter
 	agentEmitter.setup(ofGetWidth() / 2, ofGetHeight() / 2);
 	agentEmitter.setSpawnRate(1.0);
-	agentEmitter.setAgentSpeed(0.1);
+	agentEmitter.setAgentSpeed(0.75);
 	agentEmitter.setAgentTurningSpeed(1);
 	agentEmitter.setLifeSpan(5.0);
-	agentEmitter.setNAgents(1);
+	agentEmitter.setNAgents(5);
 	agentEmitter.start(); // This starts the spawning processly
 
 
@@ -118,11 +118,29 @@ void ofApp::updateGameState(float currentElapsedTime) {
 	player.update();
 	agentEmitter.update(currentElapsedTime - gameTime, player.getPosition());
 
-	// Collision detection and energy update
+	// Check for collisions between the player and agents
 	for (auto& agent : agentEmitter.getAgents()) {
-		if (agent.getPosition().distance(player.getPosition()) < collisionDistance) {
-			player.decreaseEnergy();
+		if (!agent.isDead() && player.getPosition().distance(agent.getPosition()) < collisionDistance) {
+			// If the player collides with an agent, reduce player's energy and kill the agent
+			player.decreaseEnergy();  // Assuming this method decreases energy by 1 or a defined value
 			agent.kill();
+		}
+	}
+
+	// Collision detection between ParticleRays and Agents for increasing energy
+	for (auto& particle : player.rayEmitter.particles) {
+		if (!particle.isDead()) {
+			for (auto& agent : agentEmitter.getAgents()) {
+				if (!agent.isDead() && particle.position.distance(agent.getPosition()) < collisionDistance) {
+					agent.kill(); // Kill the agent upon collision
+					particle.kill(); // Deactivate the particle after collision
+
+					// Increase player's energy, ensuring it does not exceed 100
+					if (player.energy < 100) {
+						player.energy++;
+					}
+				}
+			}
 		}
 	}
 
