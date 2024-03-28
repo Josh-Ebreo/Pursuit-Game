@@ -112,8 +112,14 @@ bool Agent::isDead() {
 	return dead;
 }
 
-void Agent::kill() { 
-	dead = true;
+void Agent::kill() {
+	if (!dead) {
+		dead = true;
+		if (explosionEmitter) {
+			explosionEmitter->setup(position, 100, 1.0); // Pass position directly
+			explosionEmitter->explode();
+		}
+	}
 }
 
 // Function to smoothly interpolate between two angles
@@ -133,4 +139,8 @@ void Agent::applyForce(ofPoint force) {
 
 void Agent::applyTorque(float torque) {
 	angularAcceleration += torque;
+}
+
+void Agent::setExplosionEmitter(ExplosionEmitter* emitter) {
+	explosionEmitter = emitter;
 }

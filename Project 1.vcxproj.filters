@@ -52,6 +52,12 @@
     <ClCompile Include="src\RayEmitter.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\ExplosionEmitter.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParticleExplosion.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -120,6 +126,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\RayEmitter.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ExplosionEmitter.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParticleExplosion.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

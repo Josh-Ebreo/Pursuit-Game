@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ParticleRay.h"
+#include "ExplosionEmitter.h"
 #include "ofMain.h"
 
 class Agent {
@@ -38,4 +39,7 @@ public:
 
     void updateMovement(ofPoint playerPosition);
     void updatePhysics();
+
+    ExplosionEmitter *explosionEmitter;
+    void setExplosionEmitter(ExplosionEmitter* explosionEmitter);
 };

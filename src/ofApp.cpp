@@ -16,6 +16,10 @@ void ofApp::setup(){
 	agentEmitter.setNAgents(5);
 	agentEmitter.start(); // This starts the spawning processly
 
+	for (auto& agent : agentEmitter.getAgents()) {
+		agent.setExplosionEmitter(&explosionEmitter); // Assuming `explosionEmitter` is a member of ofApp
+	}
+
 	// Game state initialization
 	gameTime = ofGetElapsedTimef();
 	finalGameTime = 0;
@@ -68,6 +72,7 @@ void ofApp::update() {
 	float currentElapsedTime = ofGetElapsedTimef();
 	if (gameStarted && !isGameOver) {
 		updateGameState(currentElapsedTime);
+		explosionEmitter.update();
 	}
 }
 
@@ -82,6 +87,7 @@ void ofApp::draw() {
 
 	if (!isGameOver && gameStarted) {
 		drawGame();
+		explosionEmitter.draw();
 	}
 	else if (isGameOver) {
 		drawGameOver();
@@ -94,6 +100,7 @@ void ofApp::draw() {
 void ofApp::drawGame() {
 	player.draw();
 	agentEmitter.draw();
+	explosionEmitter.draw();
 	if (showGui) {
 		gui.draw();
 	}
@@ -113,36 +120,52 @@ void ofApp::drawGameOver() {
 }
 
 void ofApp::updateGameState(float currentElapsedTime) {
+	// Update the player's state
 	player.update();
+
+	// Update the agents' state and check for collisions with the player
 	agentEmitter.update(currentElapsedTime - gameTime, player.getPosition());
 
-	// Check for collisions between the player and agents
+	checkPlayerAgentCollisions();
+	checkParticleAgentCollisions();
+
+	// Update the explosion emitter and handle explosions for dead agents
+	explosionEmitter.update();
+
+	// Handle game over condition
+	if (player.energy <= 0) {
+		isGameOver = true;
+		finalGameTime = currentElapsedTime - gameTime;
+	}
+}
+
+void ofApp::checkPlayerAgentCollisions() {
 	for (auto& agent : agentEmitter.getAgents()) {
 		if (!agent.isDead() && player.getPosition().distance(agent.getPosition()) < collisionDistance) {
 			player.decreaseEnergy();
 			agent.kill();
+			// Trigger an explosion at the agent's location
+			explosionEmitter.setup(agent.getPosition(), 100, 1.0);
+			explosionEmitter.explode();
 		}
 	}
+}
 
-	// Check for collisions between ParticleRays and Agents
+void ofApp::checkParticleAgentCollisions() {
 	for (auto& particle : player.rayEmitter.particles) {
-		if (!particle.isDead()) {
-			for (auto& agent : agentEmitter.getAgents()) {
-				if (!agent.isDead() && particle.position.distance(agent.getPosition()) < collisionDistance) {
-					agent.kill();
-					particle.kill();
-					if (player.energy < 100) {
-						player.energy++;
-					}
+		for (auto& agent : agentEmitter.getAgents()) {
+			if (!particle.isDead() && !agent.isDead() && particle.position.distance(agent.getPosition()) < collisionDistance) {
+				agent.kill();
+				particle.kill();
+				// Increase the player's energy if it's less than the max limit
+				if (player.energy < 100) {
+					player.energy++;
 				}
+				// Trigger an explosion at the agent's location
+				explosionEmitter.setup(agent.getPosition(), 100, 1.0);
+				explosionEmitter.explode();
 			}
 		}
-	}
-
-	// Game over condition
-	if (player.energy <= 0) {
-		isGameOver = true;
-		finalGameTime = currentElapsedTime - gameTime;
 	}
 }
 
@@ -165,8 +188,6 @@ void ofApp::setupKeyMap() {
 	keyMap['T'] = TOGGLE_AGENT;
 	keyMap['k'] = SHOOT;
 	keyMap['K'] = SHOOT;
-	keyMap['p'] = EXPLODE;
-	keyMap['P'] = EXPLODE;
 }
 
 //--------------------------------------------------------------

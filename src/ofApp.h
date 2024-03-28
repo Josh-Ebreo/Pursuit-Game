@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Emitter.h"
 #include "Agent.h"
+#include "ExplosionEmitter.h"
 #include "ofxGui.h"
 
 class ofApp : public ofBaseApp{
@@ -19,6 +20,7 @@ public:
 	// Game Components
 	Player player;
 	Emitter agentEmitter;
+	ExplosionEmitter explosionEmitter;
 
 	ofImage SpaceBackground;
 
@@ -31,8 +33,7 @@ public:
 		START_GAME,
 		RESTART_GAME,
 		TOGGLE_AGENT,
-		SHOOT,
-		EXPLODE
+		SHOOT
 	};
 
 	std::map<int, PlayerAction> keyMap;
@@ -88,6 +89,9 @@ public:
 	void windowResized(int w, int h);
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
+
+	void checkPlayerAgentCollisions();
+	void checkParticleAgentCollisions();
 
 private: 
 	const float collisionDistance = 15.0f; // Hard coded the distance from the player to the agents
