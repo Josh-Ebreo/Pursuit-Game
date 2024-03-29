@@ -20,7 +20,7 @@ public:
 	// Game Components
 	Player player;
 	Emitter agentEmitter;
-	ExplosionEmitter explosionEmitter;
+	std::vector<ExplosionEmitter> explosions;
 
 	ofImage SpaceBackground;
 
@@ -90,6 +90,7 @@ public:
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
 
+	// Collision detection
 	void checkPlayerAgentCollisions();
 	void checkParticleAgentCollisions();
 

@@ -11,7 +11,10 @@ void ParticleExplosion::update() {
 }
 
 void ParticleExplosion::draw() {
-    ofDrawCircle(position, 2);  // Simple representation
+    ofPushStyle();
+    ofSetColor(ofColor::red);
+    ofDrawCircle(position, 4);
+    ofPopStyle();
 }
 
 bool ParticleExplosion::isDead() const {

@@ -121,6 +121,12 @@ void Player::decreaseEnergy() {
 	energy -= 1;
 }
 
+void Player::increaseEnergy() {
+	if (energy < 100) {
+		energy += 1;
+	}
+}
+
 void Player::displayEnergy() {
 	ofDrawBitmapString("Energy: " + ofToString(energy), ofGetWidth() / 2, 20);
 }

@@ -12,7 +12,7 @@ Agent::Agent() {
 	angularAcceleration = 0;
 	damping = 0.95;
 	angle = 0;
-	lifespan = -1;  // lifespan of -1 => immortal
+	lifespan = -1;
 	birthTime = ofGetElapsedTimef();
 	dead = false;
 	agentSprite.load(ofToDataPath("images/Agent.png"));
@@ -25,12 +25,9 @@ void Agent::setup(ofPoint spawnPoint, float maxSpeed, float turningSpeed) {
 }
 
 void Agent::update(ofPoint playerPosition) {
-	// Check if the agent has exceeded its lifespan and mark it as dead if so
 	if (!isDead() && lifespan > 0 && (ofGetElapsedTimef() - birthTime > lifespan)) {
-		dead = true;
-	}
-	else {
-		// If the agent is still alive, update its movement and physics
+		kill();
+	} else if (!isDead()) {
 		updateMovement(playerPosition);
 		updatePhysics();
 		if (isOffScreen()) {
@@ -42,36 +39,24 @@ void Agent::update(ofPoint playerPosition) {
 void Agent::updateMovement(ofPoint playerPosition) {
 	ofPoint direction = playerPosition - position;
 	float desiredAngle = atan2(direction.y, direction.x);
-
-	// Adjusting the agent's rotation to face the player
 	rotation = lerpAngle(rotation, ofRadToDeg(desiredAngle), turningSpeed);
 
-	// Moving towards the player
 	direction.normalize();
 
-	// Scale the speed by a factor to make the agent move slower
 	float speedScaleFactor = 0.1;
 
-	// Apply force in the direction of the player
 	applyForce(direction * maxSpeed * speedScaleFactor);
 }
 
 void Agent::updatePhysics() {
-	// Apply acceleration to velocity
 	velocity += acceleration;
-	// Apply damping to simulate friction and prevent infinite acceleration
 	velocity *= damping;
-	// Update the agent's position
 	position += velocity;
 
-	// Apply angular acceleration to angular velocity
 	angularVelocity += angularAcceleration;
-	// Apply damping to the angular velocity to prevent infinite spinning
 	angularVelocity *= damping;
-	// Update the agent's rotation
 	rotation += angularVelocity;
 
-	// Reset the linear and angular acceleration for the next frame
 	acceleration.set(0, 0);
 	angularAcceleration = 0;
 }
@@ -79,18 +64,15 @@ void Agent::updatePhysics() {
 void Agent::draw() {
 	ofPushMatrix();
 	ofTranslate(position);
-	ofRotateDeg(rotation + 90); // Correct the angle as previously described
+	ofRotateDeg(rotation + 90);
 
 	if (Agent::drawSpriteMode) {
 		agentSprite.draw(-agentSprite.getWidth() / 2, -agentSprite.getHeight() / 2);
-	}
-	else {
-		// Draw the triangle representation
+	} else if (!dead) {
 		ofSetColor(ofColor::red);
-		ofDrawTriangle(0, -15, -10, 10, 10, 10); // Make sure these coordinates are correct
+		ofDrawTriangle(0, -15, -10, 10, 10, 10);
 		ofSetColor(ofColor::white);
 	}
-
 	ofPopMatrix();
 }
 
@@ -105,7 +87,7 @@ bool Agent::isOffScreen() {
 
 void Agent::setLifeSpan(float lifeSpan) {
 	this->lifespan = lifeSpan;
-	birthTime = ofGetElapsedTimef(); // Reset the birth time
+	birthTime = ofGetElapsedTimef();
 }
 
 bool Agent::isDead() {
@@ -115,10 +97,6 @@ bool Agent::isDead() {
 void Agent::kill() {
 	if (!dead) {
 		dead = true;
-		if (explosionEmitter) {
-			explosionEmitter->setup(position, 100, 1.0); // Pass position directly
-			explosionEmitter->explode();
-		}
 	}
 }
 
@@ -126,7 +104,6 @@ void Agent::kill() {
 // Doesn't exist in my version of openFrameworks for some reason, 
 // so I have to define it myself
 float Agent::lerpAngle(float current, float target, float factor) {
-	// Smooth interpolation between current and target angles
 	float delta = fmod(target - current + 360, 360);
 	if (delta > 180)
 		delta -= 360;
@@ -139,8 +116,4 @@ void Agent::applyForce(ofPoint force) {
 
 void Agent::applyTorque(float torque) {
 	angularAcceleration += torque;
-}
-
-void Agent::setExplosionEmitter(ExplosionEmitter* emitter) {
-	explosionEmitter = emitter;
 }

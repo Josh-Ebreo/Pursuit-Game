@@ -7,8 +7,8 @@
 class ExplosionEmitter {
 public:
     ExplosionEmitter();
-    void setup(ofPoint position, int numParticles, float lifespan);
-    void explode();
+    void prepareEmitter(ofPoint position, int numParticles, float lifespan); // New function to prepare emitter
+    void triggerExplosion(); // New function to trigger explosion
     void update();
     void draw();
 
@@ -16,4 +16,7 @@ public:
     ofPoint position;
     int numParticles;
     float lifespan;
+    bool isDone() const {
+        return particles.empty();
+    }
 };

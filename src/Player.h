@@ -21,6 +21,7 @@ public:
 	void applyForce(ofPoint force);
 	void applyTorque(float torque);
 	void decreaseEnergy();
+	void increaseEnergy();
 	void displayEnergy();
 
 	ofPoint getPosition() { return position; }
