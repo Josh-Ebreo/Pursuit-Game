@@ -32,7 +32,7 @@ public:
 		TOGGLE_GUI,
 		START_GAME,
 		RESTART_GAME,
-		TOGGLE_AGENT,
+		TOGGLE,
 		SHOOT
 	};
 
@@ -78,6 +78,7 @@ public:
 	void onNAgentsChanged(int& nAgents);
 	void restartGame();
 	void toggleAgentSprite();
+	void togglePlayerSprite();
 
 	// Unused functions
 	void mouseMoved(int x, int y );

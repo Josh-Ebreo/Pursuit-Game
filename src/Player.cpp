@@ -1,5 +1,7 @@
 #include "Player.h"
 
+bool Player::drawSpriteMode = false;
+
 Player::Player() {
 	// Set the initial position and velocity
 	position = ofPoint(ofGetWidth() / 2, ofGetHeight() / 2);
@@ -11,6 +13,7 @@ Player::Player() {
 	damping = 0.95;
 	rayEmitter.setup(position, 10, ofVec2f(0, -5), 2.0f);
 	canShoot = false;
+	playerSprite.load(ofToDataPath("images/Player.png"));
 }
 
 void Player::setup(float x, float y, float movementSpeed, float turnSpeed) {
@@ -37,18 +40,17 @@ void Player::update() {
 }
 
 void Player::draw() {
-	if (sprite.isAllocated()) {
-		sprite.draw(position.x, position.y);
+	ofPushMatrix();
+	ofTranslate(position.x, position.y);
+	ofRotate(rotation);
+	ofScale(scale, scale);
+	if (Player::drawSpriteMode) {
+		playerSprite.draw(-playerSprite.getWidth() / 2, -playerSprite.getHeight() / 2);
 	}
 	else {
-		ofPushMatrix();
-		ofTranslate(position.x, position.y);
-		ofRotate(rotation);
-		ofScale(scale, scale);
 		ofDrawTriangle(0, -15 * scale, -10 * scale, 10 * scale, 10 * scale, 10 * scale);
-		ofPopMatrix();
 	}
-	// After drawing the player, draw the rayEmitter
+	ofPopMatrix();
 	rayEmitter.draw();
 }
 

@@ -10,6 +10,8 @@ public:
 	void update();
 	void draw();
 	void keepPlayerOnScreen();
+	ofImage playerSprite;
+	static bool drawSpriteMode;
 
 	// Movement flags
 	bool movingUp = false;
@@ -42,7 +44,6 @@ public:
 
 	float movementSpeed;
 	float turnSpeed;
-
 
 	float angularVelocity;
 	float angularAcceleration;

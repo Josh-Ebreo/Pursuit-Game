@@ -184,8 +184,8 @@ void ofApp::setupKeyMap() {
 	keyMap[' '] = START_GAME;
 	keyMap['r'] = RESTART_GAME; 
 	keyMap['R'] = RESTART_GAME;
-	keyMap['t'] = TOGGLE_AGENT;
-	keyMap['T'] = TOGGLE_AGENT;
+	keyMap['t'] = TOGGLE;
+	keyMap['T'] = TOGGLE;
 	keyMap['k'] = SHOOT;
 	keyMap['K'] = SHOOT;
 }
@@ -222,8 +222,9 @@ void ofApp::keyPressed(int key) {
 		case TOGGLE_GUI:
 			showGui = !showGui;
 			break;
-		case TOGGLE_AGENT:
+		case TOGGLE:
 			toggleAgentSprite();
+			togglePlayerSprite();
 			break;
 		case SHOOT:
 			player.canShoot = true;
@@ -343,13 +344,13 @@ void ofApp::onNAgentsChanged(int& nAgents) {
 }
 
 void ofApp::restartGame() {
-	float currentTime = ofGetElapsedTimef(); // Reset game timer
+	float currentTime = ofGetElapsedTimef();
 	player.setup(ofGetWidth() / 2, ofGetHeight() / 2, player.getMovementSpeed(), player.getTurnSpeed());
-	player.energy = 100; // Reset player energy
-	agentEmitter.reset(currentTime); // Reset the emitter, including the lastSpawnTime within it
-	gameTime = currentTime; // Reset the game time
-	gameStarted = true; // Start the game
-	isGameOver = false; // Game is no longer over
+	player.energy = 100;
+	agentEmitter.reset(currentTime);
+	gameTime = currentTime;
+	gameStarted = true;
+	isGameOver = false;
 }
 
 void ofApp::toggleAgentSprite() {
@@ -357,6 +358,10 @@ void ofApp::toggleAgentSprite() {
 	for (auto& agent : agentEmitter.getAgents()) {
 		Agent::drawSpriteMode = !Agent::drawSpriteMode;
 	}
+}
+
+void ofApp::togglePlayerSprite() {
+	Player::drawSpriteMode = !Player::drawSpriteMode;
 }
 
 //--------------------------------------------------------------
