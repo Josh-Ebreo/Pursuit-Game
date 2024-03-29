@@ -22,6 +22,11 @@ public:
 	Emitter agentEmitter;
 	std::vector<ExplosionEmitter> explosions;
 
+	// Sound Components
+	ofSoundPlayer laserSound;
+	ofSoundPlayer playerCollisionSound;
+	ofSoundPlayer rayCollisionSound;
+
 	ofImage SpaceBackground;
 
 	enum PlayerAction {
