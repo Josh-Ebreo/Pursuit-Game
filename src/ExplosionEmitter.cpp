@@ -2,7 +2,7 @@
 
 #include "ExplosionEmitter.h"
 
-ExplosionEmitter::ExplosionEmitter() : numParticles(100), lifespan(5.0f) {}
+ExplosionEmitter::ExplosionEmitter() : numParticles(25), lifespan(0.5f) {}
 
 void ExplosionEmitter::prepareEmitter(ofPoint position, int numParticles, float lifespan) {
     this->position = position;
@@ -13,7 +13,7 @@ void ExplosionEmitter::prepareEmitter(ofPoint position, int numParticles, float 
 void ExplosionEmitter::triggerExplosion() {
     particles.clear(); // Clear existing particles when explosion is triggered
     for (int i = 0; i < numParticles; ++i) {
-        ofVec2f velocity(ofRandom(-5, 5), ofRandom(-5, 5));
+        ofVec2f velocity(ofRandom(-1, 1), ofRandom(-1, 1));
         particles.emplace_back(position, velocity, lifespan);
     }
 }

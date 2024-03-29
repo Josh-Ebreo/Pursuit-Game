@@ -13,7 +13,7 @@ void ParticleExplosion::update() {
 void ParticleExplosion::draw() {
     ofPushStyle();
     ofSetColor(ofColor::red);
-    ofDrawCircle(position, 4);
+    ofDrawCircle(position, 2);
     ofPopStyle();
 }
 

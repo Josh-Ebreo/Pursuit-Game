@@ -144,7 +144,7 @@ void ofApp::checkPlayerAgentCollisions() {
 		bool agentCollisionDetected = player.getPosition().distance(agent.getPosition()) < collisionDistance;
 		if (agentCollisionDetected && !agent.isDead()) {
 			ExplosionEmitter explosion;
-			explosion.prepareEmitter(agent.getPosition(), 100, 5.0);
+			explosion.prepareEmitter(agent.getPosition(), 10, 0.5);
 			explosion.triggerExplosion();
 			explosions.push_back(explosion);
 			agent.kill();
@@ -160,7 +160,7 @@ void ofApp::checkParticleAgentCollisions() {
 			bool agentCollisionDetected = particle.position.distance(agent.getPosition()) < collisionDistance;
 			if (agentCollisionDetected && !agent.isDead()) {
 				ExplosionEmitter explosion;
-				explosion.prepareEmitter(agent.getPosition(), 100, 5.0);
+				explosion.prepareEmitter(agent.getPosition(), 10, 0.5);
 				explosion.triggerExplosion();
 				explosions.push_back(explosion);
 				agent.kill();
