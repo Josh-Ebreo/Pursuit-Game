@@ -12,15 +12,14 @@ void ofApp::setup(){
 
 	player.setup(ofGetWidth() / 2, ofGetHeight() / 2, 1, 1);
 	setupKeyMap();
-	initializeGui();
 
 	// Set up the emitter
 	agentEmitter.setup(ofGetWidth() / 2, ofGetHeight() / 2);
-	agentEmitter.setSpawnRate(5.0);
+	agentEmitter.setSpawnRate(1.0);
 	agentEmitter.setAgentSpeed(0.75);
 	agentEmitter.setAgentTurningSpeed(1);
 	agentEmitter.setLifeSpan(5.0);
-	agentEmitter.setNAgents(3);
+	agentEmitter.setNAgents(1);
 	agentEmitter.start(); // This starts the spawning processly
 
 	// Game state initialization
@@ -30,23 +29,21 @@ void ofApp::setup(){
 	isGameOver = false;
 	bDifficultyChanged = false;
 	difficultyHasBeenSet = false;
-}
 
-void ofApp::initializeGui() {
 	gui.setup();
 
 	// Set up the GUI parameters
+	gui.add(difficultyLevel.setup("Difficulty Level", 1, 1, 3));
 	playerScaleParam.set("Player Scale", 1.0, 0.5, 2.0);
 	playerMovementSpeedParam.set("Player Movement Speed", 1.0, 0.5, 2.0);
 	playerTurningSpeedParam.set("Player Turning Speed", 1.0, 1.0, 2.0);
-	spawnRateParam.set("Agent Spawn Rate", 5.0, 0.5, 10.0);
+	spawnRateParam.set("Agent Spawn Rate", 1.0, 0.5, 10.0);
 	agentSpeedParam.set("Agent Speed", 0.75, 0.75, 5.0);
 	agentTurningSpeedParam.set("Agent Turning Speed", 1.0, 0.5, 1.5);
 	agentLifeSpanParam.set("Agent Life Span", 5.0, 1.0, 15.0);
-	nAgentsParam.set("Number of Agents", 3, 1, 10);
+	nAgentsParam.set("Number of Agents", 1, 1, 10);
 
 	// Add parameters to the GUI
-	gui.add(difficultyLevel.setup("Difficulty Level", 1, 1, 3));
 	gui.add(playerScaleParam);
 	gui.add(playerMovementSpeedParam);
 	gui.add(playerTurningSpeedParam);
@@ -142,6 +139,12 @@ void ofApp::updateGameState(float currentElapsedTime) {
 	if (player.energy <= 0) {
 		isGameOver = true;
 		finalGameTime = currentElapsedTime - gameTime;
+	}
+
+	// Adjust game parameters based on difficulty level if it has been changed
+	if (bDifficultyChanged) {
+		adjustDifficulty(difficultyLevel);
+		bDifficultyChanged = false;
 	}
 }
 
@@ -278,25 +281,25 @@ void ofApp::adjustDifficulty(int level) {
 	// Set the parameters based on difficulty level
 	switch (level) {
 	case 1: // Easy
-		newSpawnRate = 0.5f;
-		newAgentSpeed = 1.0f;
+		newSpawnRate = 1.0f;
+		newAgentSpeed = 0.75f;
 		newAgentTurningSpeed = 0.5f;
+		newAgentLifeSpan = 5.0f;
+		newNAgents = 1;
+		break;
+	case 2: // Medium
+		newSpawnRate = 5.0f;
+		newAgentSpeed = 3.0f;
+		newAgentTurningSpeed = 1.0f;
 		newAgentLifeSpan = 10.0f;
 		newNAgents = 5;
 		break;
-	case 2: // Medium
-		newSpawnRate = 1.0f;
-		newAgentSpeed = 1.5f;
-		newAgentTurningSpeed = 1.0f;
-		newAgentLifeSpan = 5.0f;
-		newNAgents = 3;
-		break;
 	case 3: // Hard
 		newSpawnRate = 2.0f;
-		newAgentSpeed = 2.0f;
+		newAgentSpeed = 5.0f;
 		newAgentTurningSpeed = 1.5f;
-		newAgentLifeSpan = 3.0f;
-		newNAgents = 1;
+		newAgentLifeSpan = 15.0f;
+		newNAgents = 10;
 		break;
 	}
 

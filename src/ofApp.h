@@ -67,8 +67,7 @@ public:
 	void adjustDifficulty(int level);
 	void difficultyChanged(int& level);
 
-	// Methods for handling game state and GUI
-	void initializeGui();
+	// Methods for handling game state
 	void updateGameState(float currentElapsedTime);
 	void drawGame();
 	void drawGameOver();
