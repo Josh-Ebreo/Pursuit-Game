@@ -16,11 +16,11 @@ void ofApp::setup(){
 
 	// Set up the emitter
 	agentEmitter.setup(ofGetWidth() / 2, ofGetHeight() / 2);
-	agentEmitter.setSpawnRate(1.0);
+	agentEmitter.setSpawnRate(5.0);
 	agentEmitter.setAgentSpeed(0.75);
 	agentEmitter.setAgentTurningSpeed(1);
-	agentEmitter.setLifeSpan(15.0);
-	agentEmitter.setNAgents(5);
+	agentEmitter.setLifeSpan(5.0);
+	agentEmitter.setNAgents(3);
 	agentEmitter.start(); // This starts the spawning processly
 
 	// Game state initialization
@@ -39,11 +39,11 @@ void ofApp::initializeGui() {
 	playerScaleParam.set("Player Scale", 1.0, 0.5, 2.0);
 	playerMovementSpeedParam.set("Player Movement Speed", 1.0, 0.5, 2.0);
 	playerTurningSpeedParam.set("Player Turning Speed", 1.0, 1.0, 2.0);
-	spawnRateParam.set("Agent Spawn Rate", 3.0, 0.5, 10.0);
-	agentSpeedParam.set("Agent Speed", 1.0, 0.75, 5.0);
+	spawnRateParam.set("Agent Spawn Rate", 5.0, 0.5, 10.0);
+	agentSpeedParam.set("Agent Speed", 0.75, 0.75, 5.0);
 	agentTurningSpeedParam.set("Agent Turning Speed", 1.0, 0.5, 1.5);
 	agentLifeSpanParam.set("Agent Life Span", 5.0, 1.0, 15.0);
-	nAgentsParam.set("Number of Agents", 5, 1, 20);
+	nAgentsParam.set("Number of Agents", 3, 1, 10);
 
 	// Add parameters to the GUI
 	gui.add(difficultyLevel.setup("Difficulty Level", 1, 1, 3));
