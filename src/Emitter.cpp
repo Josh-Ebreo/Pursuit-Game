@@ -30,7 +30,6 @@ void Emitter::update(float elapsedTime, ofPoint playerPosition) {
 
 	for (auto& agent : agents) {
 		agent.update(playerPosition);
-		std::cout << "Agent is being drawn" << std::endl;
 	}
 
 	// Remove dead agents

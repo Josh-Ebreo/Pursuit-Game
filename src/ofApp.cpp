@@ -7,8 +7,9 @@ void ofApp::setup(){
 	playerCollisionSound.load(ofToDataPath("sound/AgentCollidesWithPlayer.wav"));
 	rayCollisionSound.load(ofToDataPath("sound/AgentCollidesWithRay.wav"));
 
-	playerCollisionSound.setVolume(0.25);
-	rayCollisionSound.setVolume(0.25);
+	playerCollisionSound.setVolume(0.1);
+	rayCollisionSound.setVolume(0.1);
+	laserSound.setVolume(0.1);
 
 	player.setup(ofGetWidth() / 2, ofGetHeight() / 2, 1, 1);
 	setupKeyMap();
@@ -281,25 +282,25 @@ void ofApp::adjustDifficulty(int level) {
 	// Set the parameters based on difficulty level
 	switch (level) {
 	case 1: // Easy
-		newSpawnRate = 1.0f;
+		newSpawnRate = 0.5f;
 		newAgentSpeed = 0.75f;
 		newAgentTurningSpeed = 0.5f;
 		newAgentLifeSpan = 5.0f;
 		newNAgents = 1;
 		break;
 	case 2: // Medium
-		newSpawnRate = 5.0f;
-		newAgentSpeed = 3.0f;
+		newSpawnRate = 1.5f;
+		newAgentSpeed = 2.0f;
 		newAgentTurningSpeed = 1.0f;
 		newAgentLifeSpan = 10.0f;
-		newNAgents = 5;
+		newNAgents = 2;
 		break;
 	case 3: // Hard
 		newSpawnRate = 2.0f;
-		newAgentSpeed = 5.0f;
+		newAgentSpeed = 3.0f;
 		newAgentTurningSpeed = 1.5f;
 		newAgentLifeSpan = 15.0f;
-		newNAgents = 10;
+		newNAgents = 5;
 		break;
 	}
 
